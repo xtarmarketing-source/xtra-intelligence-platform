@@ -17,16 +17,19 @@ type Message = {
 export function ChatClient({
   currentUserId,
   currentUserName,
+  organizationId,
   colleagues,
 }: {
   currentUserId: string;
   currentUserName: string;
+  organizationId: string;
   colleagues: Colleague[];
 }) {
   const supabase = useRef(createSupabaseBrowserClient()).current;
   const [selected, setSelected] = useState<Colleague | null>(colleagues[0] ?? null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [draft, setDraft] = useState("");
+  const [sendError, setSendError] = useState<string | null>(null);
   const [unreadByUser, setUnreadByUser] = useState<Record<string, number>>({});
   const selectedRef = useRef(selected);
   selectedRef.current = selected;
@@ -113,15 +116,25 @@ export function ChatClient({
     if (!body || !selected) return;
 
     setDraft("");
+    setSendError(null);
     const { data, error } = await supabase
       .from("direct_messages")
-      .insert({ sender_id: currentUserId, recipient_id: selected.id, body })
+      .insert({
+        organization_id: organizationId,
+        sender_id: currentUserId,
+        recipient_id: selected.id,
+        body,
+      })
       .select()
       .single();
 
-    if (!error && data) {
-      setMessages((prev) => [...prev, data as Message]);
+    if (error) {
+      setSendError("ส่งข้อความไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
+      setDraft(body);
+      return;
     }
+
+    setMessages((prev) => [...prev, data as Message]);
   }
 
   return (
@@ -183,6 +196,9 @@ export function ChatClient({
               )}
               <div ref={bottomRef} />
             </div>
+            {sendError && (
+              <p className="text-xs text-brand px-3 pt-2">{sendError}</p>
+            )}
             <form onSubmit={handleSend} className="border-t border-line p-3 flex gap-2">
               <input
                 value={draft}

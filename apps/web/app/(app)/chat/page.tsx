@@ -34,7 +34,12 @@ export default async function ChatPage() {
   return (
     <div className="max-w-5xl px-8 py-8 flex flex-col gap-4 h-screen">
       <h1 className="text-brand text-xl font-extrabold">แชท — คุยกับทีมแบบทันที</h1>
-      <ChatClient currentUserId={user.id} currentUserName={profile.name} colleagues={colleagues ?? []} />
+      <ChatClient
+        currentUserId={user.id}
+        currentUserName={profile.name}
+        organizationId={profile.organization_id}
+        colleagues={colleagues ?? []}
+      />
     </div>
   );
 }
