@@ -36,7 +36,6 @@ export function Sidebar({
         <a href="/dashboard" className="inline-block bg-white/10 rounded-lg p-1">
           <Image src="/rnp-logo.jpg" alt="RNP Express" width={28} height={28} unoptimized className="rounded w-7 h-7" />
         </a>
-        <div className="w-9" />
       </div>
 
       {open && (
