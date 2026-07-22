@@ -1,0 +1,109 @@
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { createSupabaseBrowserClient } from "@/lib/supabase-client";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const supabase = createSupabaseBrowserClient();
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    if (signInError) {
+      setError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+      return;
+    }
+
+    router.push("/dashboard");
+    router.refresh();
+  }
+
+  return (
+    <div className="min-h-screen grid md:grid-cols-[1.05fr_1fr]">
+      <div className="relative overflow-hidden bg-brand text-white p-10 flex flex-col justify-between">
+        <div className="absolute -right-16 -bottom-16 w-56 h-56 rounded-full bg-white/10" />
+        <Image
+          src="/rnp-logo.jpg"
+          alt="RNP Express"
+          width={130}
+          height={130}
+          unoptimized
+          className="rounded-lg"
+        />
+        <div className="space-y-2">
+          <p className="text-lg font-extrabold tracking-wide">AI Sales Intelligence Platform</p>
+          <p className="text-base font-medium opacity-95">
+            แพลตฟอร์มอัจฉริยะสำหรับค้นหา วิเคราะห์ และบริหารลูกค้า B2B ด้วย AI
+          </p>
+          <p className="text-sm font-semibold opacity-85">สำหรับ RNP Express</p>
+        </div>
+        <p className="text-xs opacity-75">Powered by Xtar Marketing</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="flex flex-col justify-center gap-4 p-12">
+        <h2 className="text-brand text-xl font-bold">เข้าสู่ระบบ</h2>
+        <p className="text-ink-soft text-sm -mt-2">กรอกอีเมลและรหัสผ่านเพื่อเข้าใช้งาน Xtar</p>
+
+        {error && (
+          <p className="text-sm text-brand bg-brand-tint border border-brand-tint2 rounded-lg px-3 py-2">
+            {error}
+          </p>
+        )}
+
+        <label className="flex flex-col gap-1">
+          <span className="text-xs font-semibold text-ink-soft">อีเมล</span>
+          <input
+            type="email"
+            name="email"
+            placeholder="name@rnp.co.th"
+            className="border border-line rounded-lg px-3 py-2.5 text-sm"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+
+        <label className="flex flex-col gap-1">
+          <span className="text-xs font-semibold text-ink-soft">รหัสผ่าน</span>
+          <input
+            type="password"
+            name="password"
+            placeholder="********"
+            className="border border-line rounded-lg px-3 py-2.5 text-sm"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+
+        <a href="/forgot-password" className="text-right text-sm font-semibold text-brand">
+          ลืมรหัสผ่าน?
+        </a>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-brand hover:bg-brand-dark disabled:opacity-60 text-white font-bold rounded-lg py-3 text-sm transition-colors"
+        >
+          {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
+        </button>
+      </form>
+    </div>
+  );
+}

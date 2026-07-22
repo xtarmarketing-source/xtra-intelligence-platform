@@ -1,0 +1,819 @@
+<title>UI Wireframe — RNP Sales Intelligence</title>
+<style>
+  :root{
+    --bg:#f4f4f2;
+    --paper:#ffffff;
+    --ink:#232326;
+    --ink-soft:#5c5c62;
+    --line:#b7b7bd;
+    --line-soft:#dcdce0;
+    --accent:#3651e0;
+    --accent-soft:#e8ebfc;
+    --good:#2f9e44;
+    --good-soft:#e6f6ea;
+    --warn:#c0392b;
+    --warn-soft:#fbe9e7;
+    --tag-bg:#ececee;
+    --shadow: 0 1px 2px rgba(20,20,30,.06), 0 8px 24px rgba(20,20,30,.05);
+    --mono: ui-monospace, "SF Mono", Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  :root[data-theme="dark"]{
+    --bg:#18181b;
+    --paper:#232327;
+    --ink:#eeeeef;
+    --ink-soft:#a3a3ab;
+    --line:#4b4b53;
+    --line-soft:#35353c;
+    --accent:#8ea1ff;
+    --accent-soft:#2a2f4d;
+    --good:#4fce6c;
+    --good-soft:#1c3324;
+    --warn:#ff7a68;
+    --warn-soft:#3a2320;
+    --tag-bg:#2c2c31;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18181b;
+      --paper:#232327;
+      --ink:#eeeeef;
+      --ink-soft:#a3a3ab;
+      --line:#4b4b53;
+      --line-soft:#35353c;
+      --accent:#8ea1ff;
+      --accent-soft:#2a2f4d;
+      --good:#4fce6c;
+      --good-soft:#1c3324;
+      --warn:#ff7a68;
+      --warn-soft:#3a2320;
+      --tag-bg:#2c2c31;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    margin:0;
+    padding:2.5rem 1.5rem 5rem;
+  }
+  .wrap{ max-width:1040px; margin:0 auto; display:flex; flex-direction:column; gap:3rem; }
+
+  .doc-head{ display:flex; flex-direction:column; gap:.4rem; padding-bottom:1.5rem; border-bottom:1px solid var(--line-soft); }
+  .doc-head .eyebrow{ font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .doc-head h1{ font-size:1.6rem; margin:0; text-wrap:balance; }
+  .doc-head p{ margin:0; color:var(--ink-soft); font-size:.92rem; max-width:68ch; }
+  .changelog{ font-size:.78rem; color:var(--ink-soft); background:var(--tag-bg); border-radius:6px; padding:.6rem .8rem; }
+  .changelog b{ color:var(--ink); }
+
+  .screen{ display:flex; flex-direction:column; gap:.75rem; }
+  .screen-label{ display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; }
+  .screen-label .num{ font-family:var(--mono); color:var(--ink-soft); font-size:.85rem; }
+  .screen-label h2{ font-size:1.05rem; margin:0; }
+  .screen-label .persona{ margin-left:auto; font-size:.75rem; color:var(--ink-soft); background:var(--tag-bg); padding:.2rem .6rem; border-radius:99px; }
+  .screen-label .new{ font-size:.65rem; color:var(--good); border:1px solid var(--good); padding:.1rem .45rem; border-radius:99px; font-family:var(--mono); }
+
+  .frame{
+    background:var(--paper);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .frame-bar{
+    display:flex; align-items:center; gap:.4rem;
+    padding:.55rem .8rem;
+    border-bottom:1px solid var(--line-soft);
+    background:var(--tag-bg);
+  }
+  .frame-bar .dot{ width:8px;height:8px;border-radius:50%; background:var(--line); }
+  .frame-bar .url{ font-family:var(--mono); font-size:.7rem; color:var(--ink-soft); margin-left:.4rem; }
+  .frame-body{ padding:1rem; display:flex; flex-direction:column; gap:.8rem; }
+
+  /* wireframe primitives */
+  .box{ border:1.5px dashed var(--line); border-radius:6px; padding:.6rem .7rem; color:var(--ink-soft); font-size:.78rem; }
+  .box.solid{ border-style:solid; }
+  .row{ display:flex; gap:.7rem; }
+  .col{ display:flex; flex-direction:column; gap:.7rem; }
+  .grow{ flex:1; min-width:0; }
+  .label-chip{
+    display:inline-flex; align-items:center; font-family:var(--mono); font-size:.68rem;
+    color:var(--ink); background:var(--line-soft); padding:.1rem .45rem; border-radius:4px; align-self:flex-start;
+  }
+  .placeholder-line{ height:8px; border-radius:3px; background:var(--line-soft); }
+  .placeholder-line.w60{width:60%;} .placeholder-line.w40{width:40%;} .placeholder-line.w80{width:80%;} .placeholder-line.w30{width:30%;} .placeholder-line.w20{width:20%;}
+  .thumb{ background:repeating-linear-gradient(135deg, var(--line-soft), var(--line-soft) 6px, transparent 6px, transparent 12px); border-radius:6px; }
+
+  .btn{
+    font-family:var(--mono); font-size:.72rem; text-align:center;
+    border:1px solid var(--ink); border-radius:6px; padding:.45rem .8rem;
+    color:var(--ink); background:transparent; white-space:nowrap;
+  }
+  .btn.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn.ghost{ border-style:dashed; color:var(--ink-soft); }
+  .btn.sm{ font-size:.65rem; padding:.25rem .55rem; }
+
+  .pill{ font-size:.68rem; padding:.15rem .5rem; border-radius:99px; border:1px solid var(--line); color:var(--ink-soft); white-space:nowrap; }
+  .pill.active{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
+  .pill.good{ background:var(--good-soft); border-color:var(--good); color:var(--good); }
+  .pill.warn{ background:var(--warn-soft); border-color:var(--warn); color:var(--warn); }
+
+  .kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:.6rem; }
+  .kpi{ border:1px solid var(--line-soft); border-radius:6px; padding:.5rem .6rem; }
+  .kpi .n{ font-family:var(--mono); font-size:1rem; font-variant-numeric:tabular-nums; }
+  .kpi .l{ font-size:.65rem; color:var(--ink-soft); }
+
+  .annot{
+    display:flex; gap:.5rem; align-items:flex-start;
+    font-size:.78rem; color:var(--accent);
+    font-style:italic;
+  }
+  .annot::before{ content:"note ›"; font-style:normal; font-family:var(--mono); font-size:.68rem; opacity:.8; flex:none; }
+
+  .kanban{ display:grid; grid-template-columns:repeat(6,1fr); gap:.5rem; }
+  .kanban .col-head{ font-family:var(--mono); font-size:.65rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em; margin-bottom:.4rem; }
+  .kanban .card{ border:1px solid var(--line-soft); border-radius:5px; padding:.4rem; margin-bottom:.4rem; }
+
+  .stars{ letter-spacing:1px; color:#e0a800; font-size:.8rem; }
+  .checklist{ display:flex; flex-direction:column; gap:.25rem; font-size:.74rem; color:var(--ink); }
+  .checklist li{ list-style:none; }
+  .checklist li::before{ content:"✔ "; color:var(--good); font-weight:700; }
+  ul.checklist{ margin:0; padding:0; }
+
+  .tabs{ display:flex; gap:.3rem; flex-wrap:wrap; border-bottom:1px solid var(--line-soft); padding-bottom:.5rem; }
+  .tab{ font-family:var(--mono); font-size:.68rem; padding:.25rem .6rem; border-radius:5px 5px 0 0; color:var(--ink-soft); }
+  .tab.active{ background:var(--accent-soft); color:var(--accent); }
+
+  .wizard-steps{ display:flex; align-items:center; gap:.3rem; flex-wrap:wrap; font-family:var(--mono); font-size:.65rem; color:var(--ink-soft); }
+  .wizard-steps .step{ padding:.2rem .55rem; border-radius:99px; border:1px solid var(--line-soft); }
+  .wizard-steps .step.done{ background:var(--good-soft); border-color:var(--good); color:var(--good); }
+  .wizard-steps .step.current{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
+  .wizard-steps .arrow{ opacity:.4; }
+
+  .bar{ height:14px; border-radius:3px; background:var(--line-soft); position:relative; overflow:hidden; }
+  .bar > span{ position:absolute; inset:0; background:var(--accent); border-radius:3px; }
+
+  .legend{ display:flex; flex-wrap:wrap; gap:1rem; font-size:.75rem; color:var(--ink-soft); padding-top:.5rem; border-top:1px solid var(--line-soft); }
+  .legend span{ display:inline-flex; align-items:center; gap:.35rem; }
+  .swatch{ width:14px; height:10px; border-radius:2px; display:inline-block; }
+
+  @media (max-width: 640px){
+    .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+    .kanban{ grid-template-columns:repeat(3,1fr); }
+    .row{ flex-direction:column; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="doc-head">
+    <span class="eyebrow">13 · UI Wireframe — Low-fidelity — v1.5</span>
+    <h1>Xtar — 12 หน้าจอหลัก</h1>
+    <p>โครงสร้างระดับ low-fidelity เพื่อยืนยัน layout และลำดับข้อมูล ไม่ใช่ดีไซน์สุดท้าย — กรอบเส้นประ = placeholder/ตัวอย่างข้อมูล, ข้อความสีฟ้าเอียง = คำอธิบายเจตนาการออกแบบ, <span class="pill" style="display:inline;">ป้ายเขียว NEW</span> = หน้าจอ/ส่วนที่เพิ่มจาก feedback รอบล่าสุด</p>
+    <div class="changelog"><b>v1.1:</b> Lead Result, Explainable AI, Source badge, Search History + Saved Search, Team Assignment, Duplicate Detection, Golden Record, Contact roles, AI Next Action, Similar Company, Customer 360, Market Intelligence, Search Wizard<br/><b>v1.2:</b> Competitor Intelligence, Aging Intelligence, Sales Learning Insight, Win/Loss Capture modal<br/><b>v1.3:</b> เปลี่ยนชื่อผลิตภัณฑ์เป็น <b>Xtar</b>, Competitor Dashboard + Market Share/What-if, Country Intelligence Dashboard, Competitor Master (Admin), Export Builder<br/><b>v1.4:</b> เอาตัวเลขต้นทุนออกจากหน้าจอ Sales Rep ทั้งหมด ย้ายไปหน้า Admin — Usage &amp; Cost ใหม่ พร้อม Free Trial Quota<br/><b>v1.5 (ล่าสุด):</b> เพิ่ม Step 1 Trade Direction (Export/Import) ใน Search Wizard, เรียงลำดับประเทศใหม่ตามความสำคัญของ RNP/PUKA (ไต้หวัน/เกาหลีใต้/UAE/USA/ออสเตรเลีย/จีน/ญี่ปุ่น/ไทย/...)</div>
+  </div>
+
+  <!-- SCREEN 1 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">01</span><h2>AI Search Wizard</h2><span class="new">ขยายจากเดิม</span><span class="persona">Sales Rep</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / prospecting / new</span></div>
+      <div class="frame-body">
+        <div class="row" style="gap:1rem; align-items:flex-start;">
+
+          <div class="col grow" style="gap:.8rem;">
+            <div class="wizard-steps">
+              <span class="step done">1 Export/Import</span><span class="arrow">→</span>
+              <span class="step done">2 ประเทศ</span><span class="arrow">→</span>
+              <span class="step done">3 อุตสาหกรรม</span><span class="arrow">→</span>
+              <span class="step current">4 พนักงาน/Revenue</span><span class="arrow">→</span>
+              <span class="step">5 Export/Import Market</span><span class="arrow">→</span>
+              <span class="step">6 ภาษา</span><span class="arrow">→</span>
+              <span class="step">7 Incoterm</span><span class="arrow">→</span>
+              <span class="step">8 ความถี่ส่งสินค้า</span><span class="arrow">→</span>
+              <span class="step">9 บริการ</span>
+            </div>
+            <div class="annot">Step 4-9 เป็นตัวเลือกเสริม (ข้ามได้) — ใช้เป็นสัญญาณเพิ่มความแม่นยำให้ Scoring Agent ไม่ใช่ hard filter</div>
+
+            <span class="label-chip">STEP 1 — ทิศทางการค้า (บังคับ) <span class="new" style="margin-left:.4rem;">ใหม่</span></span>
+            <div class="row" style="gap:.5rem;">
+              <span class="pill active" style="font-size:.8rem; padding:.4rem 1rem;">📤 Export — หาลูกค้าที่ต้องการส่งออก</span>
+              <span class="pill" style="font-size:.8rem; padding:.4rem 1rem;">📥 Import — หาลูกค้าที่ต้องการนำเข้า</span>
+            </div>
+            <div class="annot">กำหนดความหมายของ "ประเทศ" ใน Step 2 และปรับน้ำหนักคะแนน Export/Import Potential ใน Scoring Agent โดยอัตโนมัติ</div>
+
+            <span class="label-chip">STEP 2 — ประเทศ (บังคับ) — เรียงตามความสำคัญของ RNP/PUKA</span>
+            <div class="row" style="flex-wrap:wrap; gap:.4rem;">
+              <span class="pill active">🇹🇼 ไต้หวัน</span><span class="pill active">🇰🇷 เกาหลีใต้</span><span class="pill">🇦🇪 UAE</span><span class="pill">🇺🇸 USA</span><span class="pill">🇦🇺 ออสเตรเลีย</span><span class="pill">🇨🇳 จีน</span><span class="pill">🇯🇵 ญี่ปุ่น</span><span class="pill">🇹🇭 ไทย</span><span class="pill">+ อีก 10 ประเทศ</span>
+            </div>
+
+            <span class="label-chip">STEP 3 — อุตสาหกรรม (บังคับ)</span>
+            <div class="row" style="flex-wrap:wrap; gap:.4rem;">
+              <span class="pill active">โรงงาน/ผู้ผลิต</span><span class="pill active">ผู้ส่งออก</span><span class="pill">ผู้นำเข้า</span><span class="pill">Trading</span><span class="pill">SME</span><span class="pill">E-commerce</span>
+            </div>
+
+            <span class="label-chip">STEP 4 — จำนวนพนักงาน / Revenue โดยประมาณ</span>
+            <div class="row" style="flex-wrap:wrap; gap:.4rem;">
+              <span class="pill active">10-50 คน</span><span class="pill">50-200 คน</span><span class="pill">200+ คน</span><span class="pill" style="margin-left:.5rem;">Revenue ไม่ระบุ ▾</span>
+            </div>
+
+            <span class="label-chip">STEP 9 — บริการที่ต้องการขาย</span>
+            <div class="row" style="flex-wrap:wrap; gap:.4rem;">
+              <span class="pill active">Sea Freight (PUKA)</span><span class="pill">Air Cargo (PUKA)</span><span class="pill">Customs Clearance (PUKA)</span><span class="pill">Fulfillment (RNP)</span><span class="pill">Int'l Express (RNP)</span>
+            </div>
+
+            <div class="box row" style="justify-content:space-between; align-items:center;">
+              <div class="col" style="gap:.3rem;">
+                <span class="placeholder-line w60"></span>
+                <span class="placeholder-line w30" style="height:6px;"></span>
+              </div>
+              <span class="label-chip">ประมาณการ: ~25 บริษัท · ~4 นาที</span>
+            </div>
+            <div class="row" style="justify-content:space-between; gap:.5rem;">
+              <div class="btn ghost">💾 Save this search</div>
+              <div class="row" style="gap:.5rem;">
+                <div class="btn">ยกเลิก</div>
+                <div class="btn primary">🔎 AI Find Customers</div>
+              </div>
+            </div>
+            <div class="annot">กดแล้วออกจากหน้าได้ทันที ระบบทำงานเบื้องหลังและแจ้งเตือนเมื่อเสร็จ (Search Job แบบ async)</div>
+            <div class="annot">ไม่แสดงต้นทุนเป็นตัวเงินในหน้านี้โดยตั้งใจ — ต้นทุนจริงยังคำนวณอยู่เบื้องหลัง แต่แสดงผลเฉพาะหน้า Admin Usage & Cost (Screen 12)</div>
+          </div>
+
+          <div class="col" style="width:230px; flex:none; gap:.8rem;">
+            <div class="box solid">
+              <span class="label-chip">⭐ Saved Searches</span>
+              <div class="col" style="gap:.4rem; margin-top:.5rem;">
+                <div class="row" style="justify-content:space-between; align-items:center;">
+                  <span class="placeholder-line w60"></span><span class="btn sm">Run</span>
+                </div>
+                <span style="font-size:.68rem;">Japan · Manufacturer · Sea Freight</span>
+                <div class="row" style="justify-content:space-between; align-items:center; margin-top:.3rem;">
+                  <span class="placeholder-line w40"></span><span class="btn sm">Run</span>
+                </div>
+                <span style="font-size:.68rem;">Australia · Food · Air Cargo</span>
+              </div>
+            </div>
+            <div class="box solid">
+              <span class="label-chip">🕘 Search History</span>
+              <div class="col" style="gap:.5rem; margin-top:.5rem; font-size:.7rem;">
+                <div class="row" style="justify-content:space-between;"><span>Japan — เมื่อวาน</span><span class="btn sm">Continue</span></div>
+                <div class="row" style="justify-content:space-between;"><span>Australia — วันนี้</span><span class="btn sm">Refresh</span></div>
+                <div class="row" style="justify-content:space-between;"><span>USA — สัปดาห์ก่อน</span><span class="btn sm">Refresh</span></div>
+              </div>
+            </div>
+            <div class="box" style="border-color:var(--accent); background:var(--accent-soft); color:var(--ink);">
+              <span class="label-chip" style="background:transparent; color:var(--accent); padding-left:0;">📊 Market Intelligence</span>
+              <p style="font-size:.72rem; margin:.4rem 0 0;">อยากรู้ภาพรวมตลาดก่อนค้นหาจริง? <br/><span style="color:var(--accent); text-decoration:underline;">ดูสถิติตลาด →</span></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">02</span><h2>Lead Result</h2><span class="new">แก้ไข/เพิ่มใหม่</span><span class="persona">Sales Rep · Manager</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / search-jobs / 4471 / results</span></div>
+      <div class="frame-body">
+        <div class="annot">Flow: Find → AI วิเคราะห์ → หน้านี้ (Lead Result) → เลือก → Approve (เฉพาะ Manager/Admin) → CRM</div>
+        <div class="row" style="justify-content:space-between; align-items:center;">
+          <span class="label-chip">23 บริษัทพบจากการค้นหา — เรียงตาม Opportunity Score</span>
+          <span class="pill">เรียงลำดับ ▾</span>
+        </div>
+        <div class="col" style="gap:.6rem;">
+
+          <div class="box solid col" style="gap:.5rem;">
+            <div class="row" style="align-items:flex-start; gap:.8rem;">
+              <div class="thumb" style="width:44px;height:44px;flex:none;"></div>
+              <div class="col grow" style="gap:.35rem;">
+                <div class="row" style="justify-content:space-between; align-items:center;">
+                  <span class="placeholder-line w40" style="height:10px;"></span>
+                  <div class="row" style="gap:.4rem; align-items:center;">
+                    <span class="stars">★★★★★</span>
+                    <span class="label-chip" style="background:var(--accent-soft); color:var(--accent);">92%</span>
+                  </div>
+                </div>
+                <div class="row" style="gap:.3rem; flex-wrap:wrap;">
+                  <span class="pill">Vietnam · Manufacturer</span>
+                  <span class="pill" style="margin-left:auto;">Source: ✔ Google ✔ Website ✔ DBD ✔ Maps</span>
+                </div>
+                <ul class="checklist">
+                  <li>Export ไป USA</li><li>Website ยัง Active</li><li>มี Warehouse</li>
+                </ul>
+                <div class="row" style="gap:.4rem; align-items:center;">
+                  <span class="pill">Assign to ▾ Kew</span>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="justify-content:flex-end; gap:.4rem;">
+              <div class="btn sm">View</div>
+              <div class="btn sm">Skip</div>
+              <div class="btn sm">Save</div>
+              <div class="btn sm primary" title="แสดงเฉพาะ role Sales Manager/Admin">Approve</div>
+            </div>
+          </div>
+
+          <div class="box solid col" style="gap:.5rem; border-color:var(--warn);">
+            <div class="row" style="align-items:flex-start; gap:.8rem;">
+              <div class="thumb" style="width:44px;height:44px;flex:none;"></div>
+              <div class="col grow" style="gap:.35rem;">
+                <div class="row" style="justify-content:space-between; align-items:center;">
+                  <span class="placeholder-line w40" style="height:10px;"></span>
+                  <div class="row" style="gap:.4rem; align-items:center;">
+                    <span class="stars">★★★★☆</span>
+                    <span class="label-chip">76%</span>
+                  </div>
+                </div>
+                <span class="pill warn" style="align-self:flex-start;">⚠ Already Exists — ตรงกับ "ABC Trading" ใน CRM</span>
+              </div>
+            </div>
+            <div class="row" style="justify-content:flex-end; gap:.4rem;">
+              <div class="btn sm">View Existing</div>
+              <div class="btn sm" style="opacity:.4;">Approve (disabled)</div>
+            </div>
+          </div>
+
+          <div class="box solid row" style="align-items:flex-start; gap:.8rem; opacity:.65;">
+            <div class="thumb" style="width:44px;height:44px;flex:none;"></div>
+            <div class="col grow" style="gap:.35rem;">
+              <div class="row" style="justify-content:space-between;">
+                <span class="placeholder-line w40" style="height:10px;"></span>
+                <div class="row" style="gap:.4rem; align-items:center;"><span class="stars">★★★☆☆</span><span class="label-chip">61%</span></div>
+              </div>
+              <span class="placeholder-line w60"></span>
+              <span class="pill" style="align-self:flex-start;">Thailand · SME</span>
+            </div>
+            <div class="col" style="gap:.3rem; flex:none;">
+              <div class="btn sm">View</div><div class="btn sm">Skip</div><div class="btn sm">Save</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="annot">Sales Rep เห็นปุ่ม Save แทน Approve — Save = เสนอให้ Manager พิจารณา ไม่เข้า CRM ทันที Skip ต้องระบุเหตุผล ยังกู้คืนได้เสมอ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">03</span><h2>Company Detail — Golden Record + Customer 360 + AI Brief</h2><span class="new">ขยายใหญ่</span><span class="persona">Sales Rep</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / companies / 8841</span></div>
+      <div class="frame-body">
+        <div class="row" style="gap:1rem; align-items:stretch;">
+
+          <div class="col grow" style="gap:.7rem;">
+            <div class="box" style="border-color:var(--accent); background:var(--accent-soft); color:var(--ink);">
+              <div class="row" style="justify-content:space-between; align-items:center;">
+                <span class="label-chip" style="background:transparent; color:var(--accent); padding-left:0;">🤖 AI BRIEF · อัพเดตล่าสุด 2 ชม.ที่แล้ว</span>
+                <span class="btn sm">Refresh</span>
+              </div>
+              <p style="margin:.5rem 0 .3rem; font-size:.8rem;"><b>ธุรกิจ/ขนาด:</b> โรงงานแปรรูปอาหารส่งออก ~120 พนักงาน</p>
+              <p style="margin:.3rem 0; font-size:.8rem;"><b>Pain Point:</b> ต้นทุนขนส่งทางเรือสูงเพราะปริมาณยังไม่มาก</p>
+              <p style="margin:.3rem 0; font-size:.8rem;"><b>กลยุทธ์ (Service Sequencing):</b> เสนอ Air Cargo ก่อน — ยังไม่ควรเริ่ม Sea Freight เพราะ volume ต่ำกว่าจุดคุ้มทุน</p>
+              <p style="margin:.3rem 0 0; font-size:.8rem;"><b>คำถามที่ควรถาม:</b> "ปัจจุบันใช้ผู้ให้บริการรายใดสำหรับตลาดจีน?"</p>
+              <div class="box solid" style="margin-top:.6rem; background:var(--paper); border-color:var(--line-soft);">
+                <span class="label-chip">📅 AI Next Action</span>
+                <div class="col" style="gap:.25rem; margin-top:.4rem; font-size:.74rem;">
+                  <div class="row" style="justify-content:space-between;"><span><b>วันนี้</b> — โทรยืนยันปริมาณกับ Export Manager</span><span class="btn sm">รับคำแนะนำ</span></div>
+                  <div class="row" style="justify-content:space-between;"><span><b>พรุ่งนี้</b> — ส่งใบเสนอราคาเบื้องต้น</span><span class="btn sm">รับคำแนะนำ</span></div>
+                  <div class="row" style="justify-content:space-between;"><span><b>สัปดาห์หน้า</b> — นัดประชุมเจรจา</span><span class="btn sm">รับคำแนะนำ</span></div>
+                </div>
+              </div>
+              <div class="box solid" style="margin-top:.5rem; background:var(--paper); border-color:var(--line-soft);">
+                <span class="label-chip">🧬 Similar Company</span>
+                <p style="font-size:.74rem; margin:.4rem 0 0;">คล้ายกับ <b>ABC Trading</b> ซึ่ง RNP ปิดดีล Sea Freight สำเร็จแล้ว — ขนาดธุรกิจและอุตสาหกรรมใกล้เคียงกัน</p>
+              </div>
+            </div>
+
+            <div class="box solid col" style="gap:.4rem;">
+              <div class="row" style="justify-content:space-between; align-items:center;">
+                <span class="label-chip">🎯 Competitor Intelligence</span>
+                <span class="btn sm">Refresh</span>
+              </div>
+              <div class="row" style="justify-content:space-between; align-items:center;">
+                <span style="font-size:.8rem;">คาดว่าใช้บริการ <b>DHL</b> อยู่ในปัจจุบัน</span>
+                <span class="pill active">Confidence: Medium 62%</span>
+              </div>
+              <ul class="checklist" style="font-size:.72rem;">
+                <li>พบโลโก้ DHL ในหน้า "Our Partners" ของเว็บไซต์</li>
+                <li>ข่าวปี 2024 กล่าวถึงการร่วมงานกับ DHL Express</li>
+              </ul>
+              <div class="row" style="gap:.6rem;">
+                <div class="col grow" style="gap:.15rem;">
+                  <span class="label-chip" style="background:transparent; padding-left:0;">จุดแข็งคู่แข่ง</span>
+                  <span style="font-size:.72rem;">เครือข่าย Express ครอบคลุมกว่า</span>
+                </div>
+                <div class="col grow" style="gap:.15rem;">
+                  <span class="label-chip" style="background:transparent; padding-left:0;">จุดอ่อนคู่แข่ง</span>
+                  <span style="font-size:.72rem;">ราคาสูงกว่าสำหรับ Sea Freight ปริมาณน้อย</span>
+                </div>
+              </div>
+              <p style="font-size:.74rem; margin:.2rem 0 0;"><b>กลยุทธ์แนะนำ:</b> เสนอ Customs Clearance ที่ยืดหยุ่นกว่าก่อน แทนการแข่ง Express ตรงๆ</p>
+            </div>
+            <div class="annot" style="font-size:.7rem;">เมื่อหลักฐานไม่พอ ระบบแสดง "ข้อมูลไม่เพียงพอ" แทนการเดาชื่อคู่แข่ง (ไม่มีค่า default)</div>
+
+            <div class="tabs">
+              <span class="tab active">Timeline</span><span class="tab">Quotation</span><span class="tab">Email</span><span class="tab">LINE</span><span class="tab">Call</span><span class="tab">Meeting</span><span class="tab">Invoice</span><span class="tab">Shipment</span>
+            </div>
+            <div class="col" style="gap:.4rem;">
+              <div class="box row" style="justify-content:space-between;"><span class="placeholder-line w40"></span><span class="pill">📞 Call</span></div>
+              <div class="box row" style="justify-content:space-between;"><span class="placeholder-line w60"></span><span class="pill">📄 Quotation</span></div>
+              <div class="box row" style="justify-content:space-between;"><span class="placeholder-line w30"></span><span class="pill">🗓 Meeting</span></div>
+            </div>
+          </div>
+
+          <div class="col" style="width:230px; flex:none; gap:.6rem;">
+            <div class="box solid">
+              <span class="label-chip">🗂 Golden Record</span>
+              <div class="col" style="gap:.3rem; margin-top:.5rem; font-size:.7rem;">
+                <div class="row" style="justify-content:space-between;"><span>Revenue</span><span class="placeholder-line w30"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>Employees</span><span class="placeholder-line w20"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>Factory</span><span class="pill good">Yes</span></div>
+                <div class="row" style="justify-content:space-between;"><span>Export Market</span><span class="placeholder-line w30"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>HS Code</span><span class="placeholder-line w20"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>Country</span><span class="placeholder-line w20"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>Website</span><span class="placeholder-line w30"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>Facebook</span><span class="placeholder-line w20"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>LinkedIn</span><span class="placeholder-line w20"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>Email</span><span class="placeholder-line w30"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>Phone</span><span class="placeholder-line w30"></span></div>
+                <div class="row" style="justify-content:space-between;"><span>Google Maps</span><span class="placeholder-line w20"></span></div>
+              </div>
+            </div>
+            <div class="box"><span class="label-chip">Deal Stage</span><br/><br/><span class="pill active">Quoted</span></div>
+            <div class="box solid">
+              <span class="label-chip">⏱ Aging</span>
+              <div class="col" style="gap:.3rem; margin-top:.4rem; font-size:.7rem;">
+                <div class="row" style="justify-content:space-between;"><span>Deal Age</span><span style="font-family:var(--mono);">34 days</span></div>
+                <div class="row" style="justify-content:space-between;"><span>Stage Age</span><span style="font-family:var(--mono);">16 days</span></div>
+                <div class="row" style="justify-content:space-between;"><span>Last Activity</span><span style="font-family:var(--mono);">3 days ago</span></div>
+                <div class="row" style="justify-content:space-between;"><span>Risk Level</span><span class="pill warn">Medium</span></div>
+              </div>
+            </div>
+            <div class="box solid">
+              <span class="label-chip">Contacts (2)</span>
+              <div class="col" style="gap:.3rem; margin-top:.4rem;">
+                <div class="row" style="justify-content:space-between;"><span class="placeholder-line w40"></span><span class="pill">Export Manager</span></div>
+                <div class="row" style="justify-content:space-between;"><span class="placeholder-line w30"></span><span class="pill">Owner</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">04</span><h2>Executive Dashboard</h2><span class="persona">Executive</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / dashboard</span></div>
+      <div class="frame-body">
+        <div class="row" style="justify-content:space-between;">
+          <span class="label-chip">ภาพรวม</span>
+          <div class="row" style="gap:.3rem;"><span class="pill active">ทั้งหมด</span><span class="pill">RNP Express</span><span class="pill">PUKA Logistic</span></div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="n">312</div><div class="l">Lead ทั้งหมด</div></div>
+          <div class="kpi"><div class="n">+14</div><div class="l">Lead ใหม่วันนี้</div></div>
+          <div class="kpi"><div class="n">89</div><div class="l">นัดประชุมแล้ว</div></div>
+          <div class="kpi"><div class="n">฿4.2M</div><div class="l">Pipeline Value</div></div>
+        </div>
+        <div class="row" style="gap:.7rem;">
+          <div class="box grow" style="min-height:90px;">
+            <span class="label-chip">Forecast ยอดขาย</span>
+            <div class="row" style="align-items:flex-end; gap:.3rem; height:44px; margin-top:.4rem;">
+              <div class="placeholder-line" style="width:12%;height:40%;"></div>
+              <div class="placeholder-line" style="width:12%;height:70%;"></div>
+              <div class="placeholder-line" style="width:12%;height:55%;"></div>
+              <div class="placeholder-line" style="width:12%;height:90%; background:var(--accent);"></div>
+            </div>
+          </div>
+          <div class="box grow" style="min-height:90px;">
+            <span class="label-chip">Lead ที่เสี่ยงหลุด</span>
+            <div class="col" style="gap:.3rem; margin-top:.4rem;">
+              <div class="row" style="justify-content:space-between;"><span class="placeholder-line w60"></span><span class="pill warn">7 วัน</span></div>
+              <div class="row" style="justify-content:space-between;"><span class="placeholder-line w40"></span><span class="pill warn">12 วัน</span></div>
+            </div>
+          </div>
+        </div>
+        <span class="label-chip new" style="align-self:flex-start;">⏱ Aging Intelligence</span>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="n">9.5d</div><div class="l">Avg Days / Stage</div></div>
+          <div class="kpi"><div class="n">6</div><div class="l">Deals at Risk (No Activity &gt;14d)</div></div>
+          <div class="kpi"><div class="n">28d</div><div class="l">Longest Negotiation</div></div>
+          <div class="kpi"><div class="n">4</div><div class="l">Follow-up Overdue</div></div>
+        </div>
+        <div class="box solid" style="border-color:var(--accent);">
+          <span class="label-chip" style="background:transparent; color:var(--accent); padding-left:0;">🤖 AI Recommendation</span>
+          <p style="font-size:.76rem; margin:.4rem 0 0;">มี 5 ดีลค้างใน Quoted เกิน 14 วัน — สูงกว่าค่าเฉลี่ยของ Stage นี้ 2 เท่า แนะนำให้ Escalate ดีลของ "XYZ Manufacturing" ให้ Sales Manager ก่อน เพราะไม่มี Activity มา 21 วันแล้ว</p>
+        </div>
+
+        <span class="label-chip">ผลงานฝ่ายขายรายบุคคล</span>
+        <div class="box row" style="justify-content:space-between;"><span class="placeholder-line w30"></span><span class="placeholder-line w40"></span><span class="pill">Close 4</span></div>
+        <div class="box row" style="justify-content:space-between;"><span class="placeholder-line w30"></span><span class="placeholder-line w30"></span><span class="pill">Close 2</span></div>
+        <div class="annot">ตัวเลขทั้งหมดคำนวณ real-time จากข้อมูล CRM จริง ไม่ใช่รายงานรอบ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">05</span><h2>Pipeline / Deal Board</h2><span class="persona">Sales Rep · Manager</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / deals</span></div>
+      <div class="frame-body">
+        <div class="kanban">
+          <div><div class="col-head">New</div><div class="card"><span class="placeholder-line w60"></span></div><div class="card"><span class="placeholder-line w40"></span></div></div>
+          <div><div class="col-head">Contacted</div><div class="card"><span class="placeholder-line w80"></span></div></div>
+          <div><div class="col-head">Qualified</div><div class="card"><span class="placeholder-line w60"></span></div><div class="card"><span class="placeholder-line w60"></span></div></div>
+          <div><div class="col-head">Quoted</div><div class="card"><span class="placeholder-line w40"></span></div></div>
+          <div><div class="col-head">Negotiation</div><div class="card"><span class="placeholder-line w60"></span></div></div>
+          <div><div class="col-head">Won</div><div class="card" style="border-color:var(--good);"><span class="placeholder-line w60"></span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">06</span><h2>Market Intelligence</h2><span class="new">ใหม่ ⭐ Flagship</span><span class="persona">Executive · Sales Manager</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / market-intelligence</span></div>
+      <div class="frame-body">
+        <div class="row" style="gap:.4rem; align-items:center;">
+          <span class="label-chip">เลือกตลาด</span>
+          <span class="pill active">🇦🇺 Australia</span><span class="pill">🇯🇵 Japan</span><span class="pill">🇺🇸 USA</span>
+        </div>
+        <div class="row" style="gap:.7rem; align-items:stretch;">
+          <div class="box solid grow col" style="gap:.5rem;">
+            <span class="label-chip">ตลาด Australia — ภาพรวม</span>
+            <div class="row" style="justify-content:space-between; align-items:baseline;">
+              <span style="font-family:var(--mono); font-size:1.4rem;">320</span>
+              <span class="pill good">การแข่งขัน: ต่ำ</span>
+            </div>
+            <span style="font-size:.7rem;">บริษัทที่เข้าเกณฑ์ทั้งหมด</span>
+            <div class="col" style="gap:.35rem; margin-top:.4rem;">
+              <div class="row" style="justify-content:space-between; align-items:center; gap:.5rem;">
+                <span style="width:70px; font-size:.7rem;">Food</span><div class="bar grow"><span style="width:75%;"></span></div><span style="font-family:var(--mono); font-size:.7rem;">120</span>
+              </div>
+              <div class="row" style="justify-content:space-between; align-items:center; gap:.5rem;">
+                <span style="width:70px; font-size:.7rem;">Cosmetic</span><div class="bar grow"><span style="width:55%;"></span></div><span style="font-family:var(--mono); font-size:.7rem;">90</span>
+              </div>
+              <div class="row" style="justify-content:space-between; align-items:center; gap:.5rem;">
+                <span style="width:70px; font-size:.7rem;">Furniture</span><div class="bar grow"><span style="width:48%;"></span></div><span style="font-family:var(--mono); font-size:.7rem;">80</span>
+              </div>
+              <div class="row" style="justify-content:space-between; align-items:center; gap:.5rem;">
+                <span style="width:70px; font-size:.7rem;">อื่นๆ</span><div class="bar grow"><span style="width:18%;"></span></div><span style="font-family:var(--mono); font-size:.7rem;">30</span>
+              </div>
+            </div>
+          </div>
+          <div class="col" style="width:200px; flex:none; gap:.6rem;">
+            <div class="kpi"><div class="n">40</div><div class="l">Lead ใหม่ (ยังไม่เคยเจอ)</div></div>
+            <div class="btn primary" style="text-align:center;">🔎 ค้นหาแบบเจาะจง →</div>
+            <div class="annot" style="font-size:.7rem;">ต่อยอดเป็น Search Job เต็มรูปแบบ พร้อม preset ตลาด/อุตสาหกรรมนี้</div>
+          </div>
+        </div>
+        <div class="box solid" style="border-color:var(--accent);">
+          <span class="label-chip" style="background:transparent; color:var(--accent); padding-left:0;">🧠 Sales Learning Insight</span>
+          <p style="font-size:.76rem; margin:.4rem 0 0;">ตลาดออสเตรเลียตอบรับ <b>Fulfillment</b> สูงกว่าตลาดญี่ปุ่นอย่างมีนัยสำคัญ — จากการวิเคราะห์ 11 ดีลที่ปิดแล้ว</p>
+          <div class="annot" style="font-size:.68rem; margin-top:.3rem;">แสดงเฉพาะ segment ที่มีดีลปิดแล้ว ≥5 ดีล — segment อื่นจะไม่แสดง insight แทนการเดา</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 7 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">07</span><h2>Win / Loss Capture (Modal)</h2><span class="new">ใหม่</span><span class="persona">Sales Rep</span></div>
+    <div class="frame" style="max-width:420px;">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">modal · deals / 8841 / close</span></div>
+      <div class="frame-body">
+        <span class="label-chip">ปิดดีล — เลือกผลลัพธ์</span>
+        <div class="row" style="gap:.5rem;">
+          <div class="btn primary grow" style="text-align:center;">✅ Won</div>
+          <div class="btn grow" style="text-align:center; border-color:var(--warn); color:var(--warn);">❌ Lost</div>
+        </div>
+        <div class="box solid col" style="gap:.5rem;">
+          <span class="label-chip">เหตุผล (บังคับเลือก)</span>
+          <div class="row" style="flex-wrap:wrap; gap:.4rem;">
+            <span class="pill active">แพ้ราคา</span><span class="pill">ลูกค้าใช้คู่แข่งเดิม</span><span class="pill">ระยะเวลาขนส่งไม่ตรง</span><span class="pill">บริการไม่ตรงความต้องการ</span><span class="pill">อื่นๆ</span>
+          </div>
+          <span class="label-chip">คู่แข่ง (ถ้าทราบ)</span>
+          <div class="row" style="flex-wrap:wrap; gap:.4rem;">
+            <span class="pill active">DHL</span><span class="pill">FedEx</span><span class="pill">Maersk</span><span class="pill">Kerry Logistics</span><span class="pill">Local Forwarder</span><span class="pill">ไม่ทราบ</span>
+          </div>
+          <span class="placeholder-line w80" style="height:20px;"></span>
+        </div>
+        <div class="row" style="justify-content:flex-end; gap:.5rem;">
+          <div class="btn">ยกเลิก</div>
+          <div class="btn primary">บันทึกผลการปิดดีล</div>
+        </div>
+        <div class="annot">บังคับเลือกเสมอ ห้ามปล่อยว่าง — ข้อมูลนี้คือฐานของ Sales Learning Agent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 8 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">08</span><h2>Competitor Dashboard</h2><span class="new">ใหม่</span><span class="persona">Executive</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / dashboard / competitors</span></div>
+      <div class="frame-body">
+        <div class="row" style="gap:.7rem; align-items:stretch;">
+          <div class="box solid grow col" style="gap:.5rem;">
+            <span class="label-chip">Market Share ภายในระบบ CRM (ไม่ใช่ market share ระดับประเทศ)</span>
+            <div class="col" style="gap:.35rem; margin-top:.3rem;">
+              <div class="row" style="justify-content:space-between; align-items:center; gap:.5rem;">
+                <span style="width:110px; font-size:.72rem;">DHL</span><div class="bar grow"><span style="width:36%;"></span></div><span style="font-family:var(--mono); font-size:.72rem;">180 · 36%</span>
+              </div>
+              <div class="row" style="justify-content:space-between; align-items:center; gap:.5rem;">
+                <span style="width:110px; font-size:.72rem;">FedEx</span><div class="bar grow"><span style="width:19%;"></span></div><span style="font-family:var(--mono); font-size:.72rem;">95 · 19%</span>
+              </div>
+              <div class="row" style="justify-content:space-between; align-items:center; gap:.5rem;">
+                <span style="width:110px; font-size:.72rem;">SCGJWD</span><div class="bar grow"><span style="width:14%;"></span></div><span style="font-family:var(--mono); font-size:.72rem;">70 · 14%</span>
+              </div>
+              <div class="row" style="justify-content:space-between; align-items:center; gap:.5rem;">
+                <span style="width:110px; font-size:.72rem;">Unknown</span><div class="bar grow"><span style="width:16%; background:var(--line);"></span></div><span style="font-family:var(--mono); font-size:.72rem;">80 · 16%</span>
+              </div>
+            </div>
+            <span class="placeholder-line w40" style="margin-top:.3rem;"></span>
+          </div>
+          <div class="col" style="width:230px; flex:none; gap:.5rem;">
+            <span class="label-chip">🧮 What-if Projection</span>
+            <div class="box solid col" style="gap:.4rem;">
+              <span style="font-size:.72rem;">ถ้าปิดดีลลูกค้า <b>DHL</b> เพิ่ม <span class="label-chip" style="background:var(--accent-soft);color:var(--accent);">20</span> ราย</span>
+              <div class="row" style="justify-content:space-between; align-items:baseline;">
+                <span style="font-size:.72rem;">ยอดขายเพิ่มโดยประมาณ</span>
+                <span style="font-family:var(--mono); font-size:1.1rem;">฿1.8M</span>
+              </div>
+              <span class="annot" style="font-size:.65rem;">คำนวณจากมูลค่าดีลเฉลี่ยของลูกค้ากลุ่ม DHL เท่านั้น — เป็นประมาณการ ไม่ใช่พยากรณ์แม่นยำ</span>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="gap:.7rem;">
+          <div class="box grow" style="min-height:80px;">
+            <span class="label-chip">Competitor by Country</span>
+            <div class="col" style="gap:.25rem; margin-top:.4rem; font-size:.72rem;">
+              <div class="row" style="justify-content:space-between;"><span>Thailand</span><span class="pill">SCGJWD</span></div>
+              <div class="row" style="justify-content:space-between;"><span>Vietnam</span><span class="pill">DHL</span></div>
+              <div class="row" style="justify-content:space-between;"><span>Australia</span><span class="pill">DHL</span></div>
+            </div>
+          </div>
+          <div class="box grow" style="min-height:80px;">
+            <span class="label-chip">Win/Loss vs Competitor</span>
+            <div class="col" style="gap:.25rem; margin-top:.4rem; font-size:.72rem;">
+              <div class="row" style="justify-content:space-between;"><span>vs DHL</span><span class="pill warn">Win 28%</span></div>
+              <div class="row" style="justify-content:space-between;"><span>vs FedEx</span><span class="pill good">Win 61%</span></div>
+              <div class="row" style="justify-content:space-between;"><span>vs SCGJWD</span><span class="pill good">Win 55%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="annot">Competitor Trend (เดือนต่อเดือน) เปิดใช้ใน Phase 1.5 เมื่อมี snapshot สะสมพอ — ดู MVP Scope §1C</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 9 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">09</span><h2>Country Intelligence Dashboard</h2><span class="new">ใหม่</span><span class="persona">Executive</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / dashboard / countries</span></div>
+      <div class="frame-body">
+        <div class="row" style="gap:.4rem; flex-wrap:wrap;">
+          <span class="pill active">🇦🇺 Australia</span><span class="pill">🇯🇵 Japan</span><span class="pill">🇻🇳 Vietnam</span><span class="pill">🇹🇭 Thailand</span><span class="pill">Table view</span><span class="pill">Heat Map</span>
+        </div>
+        <div class="box solid" style="border-color:var(--accent);">
+          <span class="label-chip" style="background:transparent; color:var(--accent); padding-left:0;">🤖 AI Insight</span>
+          <p style="font-size:.8rem; margin:.4rem 0 0;">ตลาด <b>Australia</b> มี Win Rate สูงสุด (61%) และคู่แข่งหลักคือ <b>DHL</b> — อ้างอิงจาก 18 ดีลที่ปิดแล้วในตลาดนี้</p>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="n">86</div><div class="l">Lead</div></div>
+          <div class="kpi"><div class="n">34</div><div class="l">Qualified</div></div>
+          <div class="kpi"><div class="n">18</div><div class="l">Won</div></div>
+          <div class="kpi"><div class="n">61%</div><div class="l">Win Rate</div></div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="n">฿980K</div><div class="l">Pipeline Value</div></div>
+          <div class="kpi"><div class="n">฿54K</div><div class="l">Avg Deal Size</div></div>
+          <div class="kpi"><div class="n">Food</div><div class="l">Top Industry</div></div>
+          <div class="kpi"><div class="n">DHL</div><div class="l">Top Competitor</div></div>
+        </div>
+        <span class="label-chip">เปรียบเทียบหลายประเทศ (Heat Map)</span>
+        <div class="row" style="gap:.3rem;">
+          <div class="box solid grow" style="background:var(--good-soft); border-color:var(--good); text-align:center; font-size:.7rem;">Australia<br/><b>61%</b></div>
+          <div class="box solid grow" style="background:var(--accent-soft); border-color:var(--accent); text-align:center; font-size:.7rem;">Vietnam<br/><b>44%</b></div>
+          <div class="box solid grow" style="background:var(--warn-soft); border-color:var(--warn); text-align:center; font-size:.7rem;">Japan<br/><b>N/A</b></div>
+        </div>
+        <div class="annot">Win Rate แสดง "N/A" เมื่อดีลปิดแล้วในประเทศนั้นน้อยกว่าเกณฑ์ขั้นต่ำ (ค่าเริ่มต้น 3 ดีล) แทนตัวเลขที่คำนวณจากฐานข้อมูลน้อยเกินไป</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 10 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">10</span><h2>Competitor Master (Admin)</h2><span class="new">ใหม่</span><span class="persona">Admin</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / admin / competitors</span></div>
+      <div class="frame-body">
+        <div class="row" style="justify-content:space-between;">
+          <span class="label-chip">Competitor Master</span>
+          <div class="btn primary sm">+ เพิ่มคู่แข่ง</div>
+        </div>
+        <div class="col" style="gap:.3rem;">
+          <div class="box solid row" style="justify-content:space-between; align-items:center;"><span style="font-size:.8rem;">DHL</span><div class="row" style="gap:.4rem;"><span class="pill good">Active</span><span class="btn sm">แก้ไข</span><span class="btn sm">ปิดใช้งาน</span></div></div>
+          <div class="box solid row" style="justify-content:space-between; align-items:center;"><span style="font-size:.8rem;">FedEx</span><div class="row" style="gap:.4rem;"><span class="pill good">Active</span><span class="btn sm">แก้ไข</span><span class="btn sm">ปิดใช้งาน</span></div></div>
+          <div class="box solid row" style="justify-content:space-between; align-items:center; opacity:.55;"><span style="font-size:.8rem;">UPS</span><div class="row" style="gap:.4rem;"><span class="pill">Inactive</span><span class="btn sm">แก้ไข</span><span class="btn sm">เปิดใช้งาน</span></div></div>
+          <div class="box solid row" style="justify-content:space-between; align-items:center;"><span style="font-size:.8rem;">Maersk</span><div class="row" style="gap:.4rem;"><span class="pill good">Active</span><span class="btn sm">แก้ไข</span><span class="btn sm">ปิดใช้งาน</span></div></div>
+        </div>
+        <div class="annot">รายชื่อนี้คือแหล่งข้อมูลเดียวที่ Competitor Intelligence, Win/Loss Capture, Sales Learning Agent อ้างอิง — เพิ่มที่นี่แล้วใช้งานได้ทันที ไม่ต้องแก้โค้ด (ห้าม hardcode ตาม FR-19.4)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 11 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">11</span><h2>Export Builder</h2><span class="new">ใหม่</span><span class="persona">Sales Manager · Admin</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / export / new</span></div>
+      <div class="frame-body">
+        <span class="label-chip">เลือกขอบเขตข้อมูล (กรองรวมกันได้หลายมิติ)</span>
+        <div class="row" style="flex-wrap:wrap; gap:.4rem;">
+          <span class="pill active">Country: Australia</span><span class="pill active">Stage: Won</span><span class="pill">Industry</span><span class="pill">Service</span><span class="pill">Sales Owner</span><span class="pill">Competitor</span><span class="pill">Date Range</span>
+        </div>
+        <span class="label-chip">รูปแบบไฟล์</span>
+        <div class="row" style="gap:.5rem;">
+          <span class="pill active">Excel (.xlsx)</span><span class="pill">CSV</span><span class="pill">Google Sheets</span>
+        </div>
+        <div class="box row" style="justify-content:space-between; align-items:center;">
+          <span style="font-size:.78rem;">ประมาณ 86 รายการ ตรงตามเงื่อนไข</span>
+          <div class="btn primary">Export</div>
+        </div>
+        <div class="annot">ทำงานแบบ async เหมือน Search Job — แจ้งเตือนพร้อมลิงก์ดาวน์โหลดเมื่อเสร็จ Export จำกัดเฉพาะข้อมูลที่ผู้ใช้มีสิทธิ์เข้าถึงตาม RBAC เดิม</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 12 -->
+  <div class="screen">
+    <div class="screen-label"><span class="num">12</span><h2>Admin — Usage &amp; Cost</h2><span class="new">ใหม่</span><span class="persona">Admin เท่านั้น</span></div>
+    <div class="frame">
+      <div class="frame-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="url">app.rnp-ai.internal / admin / usage</span></div>
+      <div class="frame-body">
+        <div class="annot">หน้านี้เห็นได้เฉพาะ role Admin — Sales Rep/Manager ไม่มีสิทธิ์เข้าถึงเมนูนี้เลย (ตาม FR-1.6)</div>
+
+        <span class="label-chip">🎁 Free Trial Quota — เดือนนี้</span>
+        <div class="box solid col" style="gap:.4rem;">
+          <div class="row" style="justify-content:space-between; align-items:baseline;">
+            <span style="font-size:.85rem;">ใช้ไปแล้ว <b>42</b> / 100 บริษัท (ฟรี)</span>
+            <span class="pill good">เหลืออีก 58 บริษัท</span>
+          </div>
+          <div class="bar"><span style="width:42%;"></span></div>
+        </div>
+
+        <span class="label-chip">💰 ต้นทุนจริงที่เกิดขึ้นแล้ว (เดือนนี้)</span>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="n">฿756</div><div class="l">ต้นทุนจริงสะสม</div></div>
+          <div class="kpi"><div class="n">฿18</div><div class="l">เฉลี่ย/Search Job</div></div>
+          <div class="kpi"><div class="n">42</div><div class="l">Search Job เดือนนี้</div></div>
+          <div class="kpi"><div class="n">฿10,000</div><div class="l">Budget Cap ที่ตั้งไว้</div></div>
+        </div>
+        <div class="annot" style="font-size:.7rem;">ต้นทุนจริงคำนวณและแสดงเสมอแม้จะยังอยู่ในโควตาฟรี — เพื่อให้ Admin เห็นตัวเลขจริงไว้วางแผนงบหลังหมดช่วงทดลอง</div>
+
+        <span class="label-chip">Breakdown รายบุคคล</span>
+        <div class="box row" style="justify-content:space-between;"><span class="placeholder-line w30"></span><span style="font-family:var(--mono); font-size:.72rem;">18 jobs · ฿320</span></div>
+        <div class="box row" style="justify-content:space-between;"><span class="placeholder-line w30"></span><span style="font-family:var(--mono); font-size:.72rem;">24 jobs · ฿436</span></div>
+
+        <div class="box solid" style="border-color:var(--line-soft);">
+          <span class="label-chip">⚙ ตั้งค่า</span>
+          <div class="row" style="justify-content:space-between; align-items:center; margin-top:.4rem;">
+            <span style="font-size:.75rem;">โควตาฟรี/เดือน</span>
+            <span class="pill">100 บริษัท ▾</span>
+          </div>
+          <div class="row" style="justify-content:space-between; align-items:center; margin-top:.4rem;">
+            <span style="font-size:.75rem;">Budget Cap/เดือน</span>
+            <span class="pill">฿10,000 ▾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="swatch" style="background:var(--line-soft); border:1.5px dashed var(--line);"></span> Placeholder / ข้อมูลตัวอย่าง</span>
+    <span><span class="swatch" style="background:var(--accent-soft); border:1px solid var(--accent);"></span> AI-generated content</span>
+    <span><span class="swatch" style="background:var(--warn-soft); border:1px solid var(--warn);"></span> คำเตือน (Duplicate/At-risk)</span>
+    <span style="color:var(--accent); font-style:italic;">note › คำอธิบายเจตนาการออกแบบ</span>
+  </div>
+
+</div>
