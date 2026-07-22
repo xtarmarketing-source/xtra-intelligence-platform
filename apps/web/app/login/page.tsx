@@ -31,8 +31,9 @@ export default function LoginPage() {
 
       router.push("/dashboard");
       router.refresh();
-    } catch {
-      setError("เชื่อมต่อระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : String(err);
+      setError(`เชื่อมต่อระบบไม่สำเร็จ: ${detail}`);
     } finally {
       setLoading(false);
     }
