@@ -15,7 +15,7 @@ const chip =
 // different lengths (e.g. "SME" vs "ผลิตภัณฑ์ยางพารา (หมอน/ที่นอนยาง)") line up evenly and
 // don't collide when wrapping across rows.
 const productChip =
-  "h-11 inline-flex items-center justify-center text-center leading-tight border rounded-full px-5 text-sm cursor-pointer select-none border-line bg-white text-ink transition-all hover:border-brand/40 hover:bg-brand-tint/40 peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white peer-checked:font-semibold peer-checked:shadow-sm";
+  "min-h-11 inline-flex items-center justify-center text-center leading-tight border rounded-full px-5 py-2 text-sm cursor-pointer select-none border-line bg-white text-ink transition-all hover:border-brand/40 hover:bg-brand-tint/40 peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white peer-checked:font-semibold peer-checked:shadow-sm";
 
 const tradeCard =
   "flex-1 flex flex-col gap-1 border-2 rounded-2xl p-5 cursor-pointer select-none transition-all border-line bg-white text-ink hover:border-brand/40 hover:shadow-sm peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white peer-checked:shadow-md";
@@ -89,7 +89,7 @@ export function WizardForm({ businessUnits }: { businessUnits: BusinessUnit[] })
         />
         <div className="flex flex-wrap gap-3 items-start">
           {PRODUCT_CATEGORIES.map((p) => (
-            <label key={p.code} className="basis-[calc(50%-6px)] sm:basis-auto">
+            <label key={p.code} className="basis-full sm:basis-auto">
               <input
                 type="checkbox"
                 name="product_categories"
@@ -145,14 +145,14 @@ export function WizardForm({ businessUnits }: { businessUnits: BusinessUnit[] })
         </div>
       </section>
 
-      <div className="fixed bottom-0 left-60 right-0 bg-white/95 backdrop-blur border-t border-line">
-        <div className="max-w-3xl px-8 py-4 flex items-center justify-between">
-          <span className="text-sm text-ink-soft">
+      <div className="fixed bottom-0 left-0 md:left-60 right-0 bg-white/95 backdrop-blur border-t border-line">
+        <div className="max-w-3xl px-4 sm:px-8 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span className="text-xs sm:text-sm text-ink-soft">
             ประมาณ 20-30 บริษัท · ใช้เวลาประมาณ 5-10 นาที (AI จะเข้าไปอ่านเว็บไซต์แต่ละบริษัทจริง)
           </span>
           <button
             type="submit"
-            className="bg-brand hover:bg-brand-dark text-white font-bold rounded-lg px-6 py-2.5 text-sm shadow-sm"
+            className="bg-brand hover:bg-brand-dark text-white font-bold rounded-lg px-6 py-2.5 text-sm shadow-sm flex-none"
           >
             AI Find Customers
           </button>

@@ -38,7 +38,7 @@ export default async function TeamPage() {
     .order("created_at", { ascending: true });
 
   return (
-    <div className="p-8 max-w-3xl flex flex-col gap-4">
+    <div className="p-4 sm:p-8 max-w-3xl flex flex-col gap-4">
       <h1 className="text-brand text-xl font-extrabold">จัดการทีม (Team)</h1>
       <p className="text-ink-soft text-sm">
         เพิ่ม/ปิดใช้งานพนักงานที่เข้าใช้งานระบบนี้ได้ ทั้งหมด {members?.length ?? 0} คน
@@ -48,19 +48,19 @@ export default async function TeamPage() {
         {(members ?? []).map((m) => (
           <div
             key={m.id}
-            className="border border-line rounded-xl p-3 text-sm flex items-center justify-between gap-3"
+            className="border border-line rounded-xl p-3 text-sm flex flex-wrap items-center justify-between gap-3"
           >
-            <div>
+            <div className="min-w-0">
               <div className={`font-bold ${m.status === "deactivated" ? "text-ink-soft line-through" : ""}`}>
                 {m.name}
                 {m.id === user.id && <span className="text-brand text-xs font-normal ml-1.5">(คุณ)</span>}
               </div>
-              <div className="text-ink-soft text-xs">
+              <div className="text-ink-soft text-xs break-words">
                 {m.email} · {ROLE_LABEL[m.role] ?? m.role}
               </div>
             </div>
             {m.id !== user.id && (
-              <form action={setTeamMemberStatus.bind(null, m.id)}>
+              <form action={setTeamMemberStatus.bind(null, m.id)} className="flex-none">
                 <input
                   type="hidden"
                   name="status"
@@ -68,7 +68,7 @@ export default async function TeamPage() {
                 />
                 <button
                   type="submit"
-                  className="border border-line rounded-lg px-3 py-1.5 text-xs font-semibold text-ink-soft hover:bg-line-soft"
+                  className="border border-line rounded-lg px-3 py-1.5 text-xs font-semibold text-ink-soft hover:bg-line-soft whitespace-nowrap"
                 >
                   {m.status === "active" ? "ปิดใช้งาน" : "เปิดใช้งาน"}
                 </button>

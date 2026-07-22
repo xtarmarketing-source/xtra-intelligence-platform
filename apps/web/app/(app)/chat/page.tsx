@@ -32,7 +32,7 @@ export default async function ChatPage() {
     .order("name");
 
   return (
-    <div className="max-w-5xl px-8 py-8 flex flex-col gap-4 h-screen">
+    <div className="max-w-5xl px-4 sm:px-8 py-4 sm:py-8 flex flex-col gap-4 h-screen">
       <h1 className="text-brand text-xl font-extrabold">แชท — คุยกับทีมแบบทันที</h1>
       <ChatClient
         currentUserId={user.id}
