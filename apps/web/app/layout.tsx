@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Xtar — AI Sales Intelligence",
+  title: "Xtra — AI Sales Intelligence",
   description: "AI Sales Intelligence Platform สำหรับ RNP Express และ PUKA Logistic",
 };
 

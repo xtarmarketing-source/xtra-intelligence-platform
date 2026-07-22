@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const REALM = "Xtar";
+const REALM = "Xtra";
 
 function unauthorized() {
   return new NextResponse("Authentication required", {

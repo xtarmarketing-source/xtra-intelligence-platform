@@ -49,7 +49,7 @@ export default function ForgotPasswordPage() {
           </p>
           <p className="text-sm font-semibold opacity-85">สำหรับ RNP Express</p>
         </div>
-        <p className="text-xs opacity-75">Powered by Xtar Marketing</p>
+        <p className="text-xs opacity-75">Powered by Xtra Marketing</p>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col justify-center gap-4 p-12">

@@ -53,12 +53,12 @@ export default function LoginPage() {
           </p>
           <p className="text-sm font-semibold opacity-85">สำหรับ RNP Express</p>
         </div>
-        <p className="text-xs opacity-75">Powered by Xtar Marketing</p>
+        <p className="text-xs opacity-75">Powered by Xtra Marketing</p>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col justify-center gap-4 p-12">
         <h2 className="text-brand text-xl font-bold">เข้าสู่ระบบ</h2>
-        <p className="text-ink-soft text-sm -mt-2">กรอกอีเมลและรหัสผ่านเพื่อเข้าใช้งาน Xtar</p>
+        <p className="text-ink-soft text-sm -mt-2">กรอกอีเมลและรหัสผ่านเพื่อเข้าใช้งาน Xtra</p>
 
         {error && (
           <p className="text-sm text-brand bg-brand-tint border border-brand-tint2 rounded-lg px-3 py-2">

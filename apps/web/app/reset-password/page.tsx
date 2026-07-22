@@ -44,7 +44,7 @@ export default function ResetPasswordPage() {
         className="w-full max-w-sm flex flex-col gap-4 bg-white border border-line rounded-2xl p-8 shadow-sm"
       >
         <h2 className="text-brand text-xl font-bold">ตั้งรหัสผ่านใหม่</h2>
-        <p className="text-ink-soft text-sm -mt-2">กรอกรหัสผ่านใหม่ที่ต้องการใช้เข้าสู่ระบบ Xtar</p>
+        <p className="text-ink-soft text-sm -mt-2">กรอกรหัสผ่านใหม่ที่ต้องการใช้เข้าสู่ระบบ Xtra</p>
 
         {error && (
           <p className="text-sm text-brand bg-brand-tint border border-brand-tint2 rounded-lg px-3 py-2">

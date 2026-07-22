@@ -51,7 +51,7 @@ async function fetchWithTimeout(url: string): Promise<string | null> {
       signal: controller.signal,
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (compatible; XtarProspectingBot/1.0; +https://xtarmarketing.example/bot)",
+          "Mozilla/5.0 (compatible; XtraProspectingBot/1.0; +https://xtramarketing.example/bot)",
         Accept: "text/html",
       },
     });

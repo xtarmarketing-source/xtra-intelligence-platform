@@ -37,28 +37,29 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     .eq("id", user.id)
     .single();
   const canApprove = profile?.role === "admin" || profile?.role === "sales_manager";
-
-  const { count: pendingLeadCount } = canApprove
-    ? await supabase
-        .from("candidate_leads")
-        .select("id", { count: "exact", head: true })
-        .eq("status", "pending_review")
-    : { count: 0 };
-
   const today = new Date().toISOString().slice(0, 10);
-  const { count: dueTaskCount } = canApprove
-    ? await supabase
-        .from("tasks")
-        .select("id", { count: "exact", head: true })
-        .eq("status", "open")
-        .lte("due_date", today)
-    : { count: 0 };
 
-  const { count: unreadMessageCount } = await supabase
-    .from("direct_messages")
-    .select("id", { count: "exact", head: true })
-    .eq("recipient_id", user.id)
-    .is("read_at", null);
+  const [{ count: pendingLeadCount }, { count: dueTaskCount }, { count: unreadMessageCount }] =
+    await Promise.all([
+      canApprove
+        ? supabase
+            .from("candidate_leads")
+            .select("id", { count: "exact", head: true })
+            .eq("status", "pending_review")
+        : Promise.resolve({ count: 0 }),
+      canApprove
+        ? supabase
+            .from("tasks")
+            .select("id", { count: "exact", head: true })
+            .eq("status", "open")
+            .lte("due_date", today)
+        : Promise.resolve({ count: 0 }),
+      supabase
+        .from("direct_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("recipient_id", user.id)
+        .is("read_at", null),
+    ]);
 
   const navBadgeCount: Record<string, number> = {
     "/leads": pendingLeadCount ?? 0,
